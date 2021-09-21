@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\ToDoListApp.API",
+    "\\ToDoListApp.API\\Application",
+    "\\ToDoListApp.API\\Application\\Commands",
+    "\\ToDoListApp.API\\Application\\Commands\\Tasks.cs",
+    "\\ToDoListApp.API\\Application\\Queries",
+    "\\ToDoListApp.API\\Application\\Queries\\Tasks",
+    "\\ToDoListApp.Domain",
+    "\\ToDoListApp.Domain\\AggregatesModel",
+    "\\ToDoListApp.Domain\\AggregatesModel\\UserAggregate"
+  ],
+  "SelectedNode": "\\ToDoListApp.API\\Application\\Queries\\Tasks\\TaskQueries.cs",
+  "PreviewInSolutionExplorer": false
+}
