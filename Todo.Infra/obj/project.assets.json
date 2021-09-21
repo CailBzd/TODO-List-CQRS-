@@ -5865,45 +5865,40 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\p.bizard\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\DevExpress 20.2\\Components\\Offline Packages": {},
-    "C:\\Program Files (x86)\\DevExpress 21.2\\Components\\Offline Packages": {}
+    "C:\\Users\\Pierre\\.nuget\\packages\\": {},
+    "D:\\logiciel\\DevExpress 20.2\\Components\\Offline Packages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\p.bizard\\source\\git\\TODO-List-CQRS-\\Todo.Infra\\Todo.Infra.csproj",
+      "projectUniqueName": "Z:\\logiciel\\Repos\\TODO-List-CQRS-\\Todo.Infra\\Todo.Infra.csproj",
       "projectName": "Todo.Infra",
-      "projectPath": "C:\\Users\\p.bizard\\source\\git\\TODO-List-CQRS-\\Todo.Infra\\Todo.Infra.csproj",
-      "packagesPath": "C:\\Users\\p.bizard\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\p.bizard\\source\\git\\TODO-List-CQRS-\\Todo.Infra\\obj\\",
+      "projectPath": "Z:\\logiciel\\Repos\\TODO-List-CQRS-\\Todo.Infra\\Todo.Infra.csproj",
+      "packagesPath": "C:\\Users\\Pierre\\.nuget\\packages\\",
+      "outputPath": "Z:\\logiciel\\Repos\\TODO-List-CQRS-\\Todo.Infra\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\DevExpress 20.2\\Components\\Offline Packages",
-        "C:\\Program Files (x86)\\DevExpress 21.2\\Components\\Offline Packages"
+        "D:\\logiciel\\DevExpress 20.2\\Components\\Offline Packages"
       ],
       "configFilePaths": [
-        "C:\\Users\\p.bizard\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Pierre\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 20.2.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 21.2.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\DevExpress 20.2\\Components\\System\\Components\\Packages": {},
-        "C:\\Program Files (x86)\\DevExpress 21.2\\Components\\System\\Components\\Packages": {},
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://nuget.devexpress.com/ZeOVb76oZMu42bkvSKeCH1wdsOJEl9oGrCKCm3mxmhBZBLfeS6/api": {}
+        "D:\\logiciel\\DevExpress 20.2\\Components\\System\\Components\\Packages": {},
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\p.bizard\\source\\git\\TODO-List-CQRS-\\Todo.Domain\\Todo.Domain.csproj": {
-              "projectPath": "C:\\Users\\p.bizard\\source\\git\\TODO-List-CQRS-\\Todo.Domain\\Todo.Domain.csproj"
+            "Z:\\logiciel\\Repos\\TODO-List-CQRS-\\Todo.Domain\\Todo.Domain.csproj": {
+              "projectPath": "Z:\\logiciel\\Repos\\TODO-List-CQRS-\\Todo.Domain\\Todo.Domain.csproj"
             }
           }
         }
@@ -5958,7 +5953,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

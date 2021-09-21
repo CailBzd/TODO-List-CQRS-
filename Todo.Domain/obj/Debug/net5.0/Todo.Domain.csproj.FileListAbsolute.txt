@@ -22,3 +22,15 @@ C:\Users\p.bizard\source\git\TODO-List-CQRS-\Todo.Domain\obj\Debug\net5.0\Todo.D
 C:\Users\p.bizard\source\git\TODO-List-CQRS-\Todo.Domain\obj\Debug\net5.0\Todo.Domain.dll
 C:\Users\p.bizard\source\git\TODO-List-CQRS-\Todo.Domain\obj\Debug\net5.0\ref\Todo.Domain.dll
 C:\Users\p.bizard\source\git\TODO-List-CQRS-\Todo.Domain\obj\Debug\net5.0\Todo.Domain.pdb
+Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Domain\bin\Debug\net5.0\Todo.Domain.deps.json
+Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Domain\bin\Debug\net5.0\Todo.Domain.dll
+Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Domain\bin\Debug\net5.0\ref\Todo.Domain.dll
+Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Domain\bin\Debug\net5.0\Todo.Domain.pdb
+Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Domain\obj\Debug\net5.0\Todo.Domain.csproj.AssemblyReference.cache
+Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Domain\obj\Debug\net5.0\Todo.Domain.GeneratedMSBuildEditorConfig.editorconfig
+Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Domain\obj\Debug\net5.0\Todo.Domain.AssemblyInfoInputs.cache
+Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Domain\obj\Debug\net5.0\Todo.Domain.AssemblyInfo.cs
+Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Domain\obj\Debug\net5.0\Todo.Domain.csproj.CoreCompileInputs.cache
+Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Domain\obj\Debug\net5.0\Todo.Domain.dll
+Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Domain\obj\Debug\net5.0\ref\Todo.Domain.dll
+Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Domain\obj\Debug\net5.0\Todo.Domain.pdb

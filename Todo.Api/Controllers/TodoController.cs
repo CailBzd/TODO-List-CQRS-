@@ -17,29 +17,30 @@ namespace Todo.Api.Controllers
     public class TodoController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<TodoItem> GetAll(
-            [FromServices] ITodoRepository repository
-        )
+        public IEnumerable<TodoItem>
+        GetAll([FromServices] ITodoRepository repository)
         {
-            var user = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
+            var user =
+                User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
             return repository.GetAll(user);
         }
 
-
         [HttpPost]
-        public GenericCommandResult Create(
+        public GenericCommandResult
+        Create(
             [FromBody] CreateTodoCommand command,
             [FromServices] TodoHandler handler
         )
         {
-
             var identity = User.Identity as ClaimsIdentity;
-            var userId = identity.Claims.Where(claim => claim.Type == "id").FirstOrDefault().Value;
+            var userId =
+                identity
+                    .Claims
+                    .Where(claim => claim.Type == "id")
+                    .FirstOrDefault()
+                    .Value;
 
-            return (GenericCommandResult)handler.Handle(command);
+            return (GenericCommandResult) handler.Handle(command);
         }
-
-     
-
     }
 }

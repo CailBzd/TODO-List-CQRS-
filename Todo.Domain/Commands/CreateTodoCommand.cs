@@ -9,12 +9,14 @@ namespace Todo.Domain.Commands
     {
         public CreateTodoCommand() { }
 
-        public CreateTodoCommand(string title)
+        public CreateTodoCommand(string title,string userId)
         {
             Title = title;
+            UserId = userId;
         }
 
         public string Title { get; set; }
+        public string UserId { get; set; }
 
         public void Validate()
         {
