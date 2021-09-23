@@ -2,18 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Todo.Domain.Entities;
+using Todo.Domain.AggregatesModel.TodoItemAggregate;
+using Todo.Domain.SeedWork;
 using Todo.Infra.Contexts;
-using Todo.Domain.Queries;
-using Todo.Domain.Repositories;
 
 namespace Todo.Infra.Repositories
 {
-    public class TodoRepository : ITodoRepository
+    public class TodoItemRepository : ITodoItemRepository
     {
-        private readonly DataContext _context;
+        private readonly TodoContext _context;
 
-        public TodoRepository(DataContext context)
+        public IUnitOfWork UnitOfWork
+        {
+            get
+            {
+                return _context;
+            }
+        }
+
+        public TodoItemRepository(TodoContext context)
         {
             _context = context;
         }
@@ -28,7 +35,7 @@ namespace Todo.Infra.Repositories
         {
             return _context.Todos
                .AsNoTracking()
-               .Where(TodoQueries.GetAll(userid));
+               .Where(u => u.CustomerId.ToString() == userid);
         }
 
        

@@ -20,6 +20,28 @@
           "lib/netstandard2.0/Humanizer.dll": {}
         }
       },
+      "MediatR/9.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/MediatR.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/MediatR.dll": {}
+        }
+      },
+      "MediatR.Extensions.Microsoft.DependencyInjection/9.0.0": {
+        "type": "package",
+        "dependencies": {
+          "MediatR": "9.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/MediatR.Extensions.Microsoft.DependencyInjection.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/MediatR.Extensions.Microsoft.DependencyInjection.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.7.0": {
         "type": "package",
         "compile": {
@@ -1583,6 +1605,37 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
+      ]
+    },
+    "MediatR/9.0.0": {
+      "sha512": "8b3UYNxegHVYcJMG2zH8wn+YqxLvXG+eMfj0cMCq/jTW72p6O3PCKMkrIv0mqyxdW7bA4gblsocw7n+/9Akg5g==",
+      "type": "package",
+      "path": "mediatr/9.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "gradient_128x128.png",
+        "lib/net461/MediatR.dll",
+        "lib/net461/MediatR.xml",
+        "lib/netstandard2.0/MediatR.dll",
+        "lib/netstandard2.0/MediatR.xml",
+        "lib/netstandard2.1/MediatR.dll",
+        "lib/netstandard2.1/MediatR.xml",
+        "mediatr.9.0.0.nupkg.sha512",
+        "mediatr.nuspec"
+      ]
+    },
+    "MediatR.Extensions.Microsoft.DependencyInjection/9.0.0": {
+      "sha512": "msreY4ogiPdIRWiCQVHQDytIQpsZCLWsixWPZ+Xs86KZrvtuiV8BDHbIT0kBmogynVYWNpspb3caw+86YU8L6w==",
+      "type": "package",
+      "path": "mediatr.extensions.microsoft.dependencyinjection/9.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "gradient_128x128.png",
+        "lib/netstandard2.0/MediatR.Extensions.Microsoft.DependencyInjection.dll",
+        "mediatr.extensions.microsoft.dependencyinjection.9.0.0.nupkg.sha512",
+        "mediatr.extensions.microsoft.dependencyinjection.nuspec"
       ]
     },
     "Microsoft.CSharp/4.7.0": {
@@ -5856,6 +5909,8 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "MediatR >= 9.0.0",
+      "MediatR.Extensions.Microsoft.DependencyInjection >= 9.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 5.0.10",
       "Microsoft.EntityFrameworkCore.InMemory >= 5.0.10",
       "Microsoft.EntityFrameworkCore.Relational >= 5.0.10",
@@ -5865,40 +5920,45 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Pierre\\.nuget\\packages\\": {},
-    "D:\\logiciel\\DevExpress 20.2\\Components\\Offline Packages": {}
+    "C:\\Users\\p.bizard\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\DevExpress 20.2\\Components\\Offline Packages": {},
+    "C:\\Program Files (x86)\\DevExpress 21.2\\Components\\Offline Packages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "Z:\\logiciel\\Repos\\TODO-List-CQRS-\\Todo.Infra\\Todo.Infra.csproj",
+      "projectUniqueName": "C:\\Users\\p.bizard\\source\\git\\TODO-List-CQRS-\\Todo.Infra\\Todo.Infra.csproj",
       "projectName": "Todo.Infra",
-      "projectPath": "Z:\\logiciel\\Repos\\TODO-List-CQRS-\\Todo.Infra\\Todo.Infra.csproj",
-      "packagesPath": "C:\\Users\\Pierre\\.nuget\\packages\\",
-      "outputPath": "Z:\\logiciel\\Repos\\TODO-List-CQRS-\\Todo.Infra\\obj\\",
+      "projectPath": "C:\\Users\\p.bizard\\source\\git\\TODO-List-CQRS-\\Todo.Infra\\Todo.Infra.csproj",
+      "packagesPath": "C:\\Users\\p.bizard\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\p.bizard\\source\\git\\TODO-List-CQRS-\\Todo.Infra\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "D:\\logiciel\\DevExpress 20.2\\Components\\Offline Packages"
+        "C:\\Program Files (x86)\\DevExpress 20.2\\Components\\Offline Packages",
+        "C:\\Program Files (x86)\\DevExpress 21.2\\Components\\Offline Packages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Pierre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\p.bizard\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 20.2.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 21.2.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\DevExpress 20.2\\Components\\System\\Components\\Packages": {},
+        "C:\\Program Files (x86)\\DevExpress 21.2\\Components\\System\\Components\\Packages": {},
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "D:\\logiciel\\DevExpress 20.2\\Components\\System\\Components\\Packages": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://nuget.devexpress.com/ZeOVb76oZMu42bkvSKeCH1wdsOJEl9oGrCKCm3mxmhBZBLfeS6/api": {}
       },
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "Z:\\logiciel\\Repos\\TODO-List-CQRS-\\Todo.Domain\\Todo.Domain.csproj": {
-              "projectPath": "Z:\\logiciel\\Repos\\TODO-List-CQRS-\\Todo.Domain\\Todo.Domain.csproj"
+            "C:\\Users\\p.bizard\\source\\git\\TODO-List-CQRS-\\Todo.Domain\\Todo.Domain.csproj": {
+              "projectPath": "C:\\Users\\p.bizard\\source\\git\\TODO-List-CQRS-\\Todo.Domain\\Todo.Domain.csproj"
             }
           }
         }
@@ -5913,6 +5973,14 @@
       "net5.0": {
         "targetAlias": "net5.0",
         "dependencies": {
+          "MediatR": {
+            "target": "Package",
+            "version": "[9.0.0, )"
+          },
+          "MediatR.Extensions.Microsoft.DependencyInjection": {
+            "target": "Package",
+            "version": "[9.0.0, )"
+          },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
@@ -5953,7 +6021,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
       }
     }
   }

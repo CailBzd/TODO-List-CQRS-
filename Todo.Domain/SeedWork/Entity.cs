@@ -1,19 +1,20 @@
 using System;
 
-namespace Todo.Domain.Entities
+namespace Todo.Domain.SeedWork
 {
-    public abstract class Entity : IEquatable<Entity>
+    public abstract class Entity 
     {
         public Entity()
         {
             Id = Guid.NewGuid();
         }
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
 
         public bool Equals(Entity other)
         {
             return Id == other.Id;
         }
+
     }
 }

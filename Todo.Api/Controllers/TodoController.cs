@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Todo.Domain.Commands;
-using Todo.Domain.Entities;
-using Todo.Domain.Handlers;
-using Todo.Domain.Repositories;
+using Todo.Api.Commands;
+using Todo.Api.Queries;
 
 namespace Todo.Api.Controllers
 {
@@ -16,31 +16,40 @@ namespace Todo.Api.Controllers
     [Authorize]
     public class TodoController : ControllerBase
     {
-        [HttpGet]
-        public IEnumerable<TodoItem>
-        GetAll([FromServices] ITodoRepository repository)
+        private readonly IMediator _mediator;
+        private readonly ITodoItemsQueries _todoQueries;
+
+        public TodoController( IMediator mediator, ITodoItemsQueries todoQueries)
         {
-            var user =
-                User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
-            return repository.GetAll(user);
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _todoQueries = todoQueries ?? throw new ArgumentNullException(nameof(todoQueries));
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<TodoItemSummary>>> GetTodoItemsFromCustomerAsync()
+        {
+
+            var clmIdentity = User.Identity as ClaimsIdentity;
+            var userId = clmIdentity.Claims.Where(claim => claim.Type == "id").FirstOrDefault().Value;
+
+            var todos = await _todoQueries.GetTodoItemsFromCustomerAsync(Guid.Parse(userId));
+            return Ok(todos);
         }
 
         [HttpPost]
-        public GenericCommandResult
-        Create(
-            [FromBody] CreateTodoCommand command,
-            [FromServices] TodoHandler handler
-        )
+        public async Task<ActionResult<CreateTodoItemDTO>> Create([FromBody] CreateTodoItemCommand command)
         {
-            var identity = User.Identity as ClaimsIdentity;
-            var userId =
-                identity
-                    .Claims
-                    .Where(claim => claim.Type == "id")
-                    .FirstOrDefault()
-                    .Value;
+            //var identity = User.Identity as ClaimsIdentity;
+            //var userId =
+            //    identity
+            //        .Claims
+            //        .Where(claim => claim.Type == "id")
+            //        .FirstOrDefault()
+            //        .Value;
 
-            return (GenericCommandResult) handler.Handle(command);
+            //command.UserId = userId;
+
+            return await _mediator.Send(command);
         }
     }
 }

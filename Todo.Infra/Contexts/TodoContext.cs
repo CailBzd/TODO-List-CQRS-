@@ -1,33 +1,82 @@
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Todo.Domain.Entities;
+using Microsoft.EntityFrameworkCore.Design;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Todo.Domain.AggregatesModel.CustomerAggregate;
+using Todo.Domain.AggregatesModel.TodoItemAggregate;
+using Todo.Domain.SeedWork;
+using Todo.Infra.EntityConfigurations;
 
 namespace Todo.Infra.Contexts
 {
-    public class DataContext : DbContext
+    public class TodoContext : DbContext, IUnitOfWork
     {
-        public DataContext(DbContextOptions<DataContext> options)
-            : base(options)
-        {
+        public const string DEFAULT_SCHEMA = "todolist";
+
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<TodoItem> Todos { get; set; }
+
+        private readonly IMediator _mediator;
+
+        public TodoContext(DbContextOptions<TodoContext> options): base(options){
+            Console.WriteLine("TodoContext1");
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<TodoItem> Todos { get; set; }
+        public TodoContext(DbContextOptions<TodoContext> options, IMediator mediator) : base(options)
+        {
+            Console.WriteLine("TodoContext2");
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new TodoEntityTypeConfig());
+            modelBuilder.ApplyConfiguration(new CustomerEntityTypeConfig());
 
-            modelBuilder.Entity<User>().HasKey(u => u.Id);
-            modelBuilder.Entity<TodoItem>().HasKey(ti => ti.Id);
+        }
 
+        public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            //await _mediator.DispatchDomainEventsAsync(this);
 
-            modelBuilder.Entity<TodoItem>().HasOne(ti => ti.User).WithMany(u => u.Todos);
+            var result = await base.SaveChangesAsync(cancellationToken);
 
-            //modelBuilder.Entity<TodoItem>().ToTable("Todo");
-            //modelBuilder.Entity<TodoItem>().Property(x => x.Id);
-            //modelBuilder.Entity<TodoItem>().Property(x => x.User).HasMaxLength(120).HasColumnType("varchar(120)");
-            //modelBuilder.Entity<TodoItem>().Property(x => x.Title).HasMaxLength(160).HasColumnType("varchar(160)");
-            //modelBuilder.Entity<TodoItem>().Property(x => x.Date);
-            //modelBuilder.Entity<TodoItem>().HasIndex(b => b.User);
+            return true;
+        }
+    }
+
+    public class TodoContextDesignFactor : IDesignTimeDbContextFactory<TodoContext>
+    {
+        public TodoContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<TodoContext>().UseInMemoryDatabase("Database");
+
+            return new TodoContext(optionsBuilder.Options, new NoMediator());
+        }
+
+        class NoMediator : IMediator
+        {
+            public Task Publish(object notification, CancellationToken cancellationToken = default)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default) where TNotification : INotification
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                return Task.FromResult<TResponse>(default(TResponse));
+            }
+
+            public Task<object> Send(object request, CancellationToken cancellationToken = default)
+            {
+                return Task.FromResult(default(object));
+            }
         }
     }
 }

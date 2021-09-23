@@ -262,3 +262,6 @@ Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Api\obj\Debug\net5.0\Todo.Api.dll
 Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Api\obj\Debug\net5.0\ref\Todo.Api.dll
 Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Api\obj\Debug\net5.0\Todo.Api.pdb
 Z:\logiciel\Repos\TODO-List-CQRS-\Todo.Api\obj\Debug\net5.0\Todo.Api.genruntimeconfig.cache
+C:\Users\p.bizard\source\git\TODO-List-CQRS-\Todo.Api\bin\Debug\net5.0\Dapper.dll
+C:\Users\p.bizard\source\git\TODO-List-CQRS-\Todo.Api\bin\Debug\net5.0\MediatR.dll
+C:\Users\p.bizard\source\git\TODO-List-CQRS-\Todo.Api\bin\Debug\net5.0\MediatR.Extensions.Microsoft.DependencyInjection.dll

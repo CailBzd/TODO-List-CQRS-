@@ -10,13 +10,13 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Todo.Domain.Entities;
-using Todo.Domain.Handlers;
 using Todo.Infra.Contexts;
 using Todo.Infra.Repositories;
-using Todo.Domain.Repositories;
 using Todo.Domain.Services;
-using Todo.Infra.Repositories;
+using Todo.Domain.AggregatesModel.CustomerAggregate;
+using Todo.Domain.AggregatesModel.TodoItemAggregate;
+using Todo.Api.Controllers;
+using Todo.Api.Models;
 
 namespace Todo.Domain.Api
 {
@@ -31,36 +31,14 @@ namespace Todo.Domain.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Todo.Api", Version = "v1" });
-            });
-
-            services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
-
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<ITodoRepository, TodoRepository>();
-            services.AddTransient<TodoHandler, TodoHandler>();
-            services.AddTransient<AuthenticateUser>();
-
-            services
-               .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-               .AddJwtBearer(options =>
-               {
-                   options.TokenValidationParameters = new TokenValidationParameters
-                   {
-                       ValidateIssuer = false,
-                       ValidateAudience = false,
-                       ValidateLifetime = true,
-                       ValidateIssuerSigningKey = true,
-                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-                   };
-               });
+            services.AddCustomMvc();
+            services.AddCustomDbContext(Configuration);
+            services.AddCustomSwagger(Configuration);
+            services.AddCustomIntegrations(Configuration);
+            services.AddCustomAuthentication(Configuration);           
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
             {
@@ -72,55 +50,93 @@ namespace Todo.Domain.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
-
-            app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseCors("CorsPolicy");
+            ConfigureAuth(app);
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-            SeedData(context);
-        }
+            new SeedData().SeedDatabaseAsync(services.GetRequiredService<TodoContext>()).Wait();
 
-        private void SeedData(DataContext context)
+        }
+        protected virtual void ConfigureAuth(IApplicationBuilder app)
         {
-            Console.WriteLine("-->  SeedData");
-
-            var user = new User
-            {
-                Id = new Guid(),
-                Username = "Pierre",
-                Password = "0123456789",
-                Todos = new List<TodoItem>()
-                {
-                    new TodoItem{
-                    Id = new Guid(),
-                    Title = "Todo item 1"
-                    },
-                    new TodoItem{
-                    Id = new Guid(),
-                    Title = "Todo item 2"
-                    },
-                    new TodoItem{
-                    Id = new Guid(),
-                    Title = "Todo item 3"
-                    },
-                    new TodoItem{
-                    Id = new Guid(),
-                    Title = "Todo item 4"
-                    }
-                }
-            };
-
-            context.Users.Add(user);
-
-            context.SaveChanges();
+            app.UseAuthentication();
+            app.UseAuthorization();
         }
+
+
     }
+
+    static class CustomExtensionsMethods
+    {
+        public static IServiceCollection AddCustomMvc(this IServiceCollection services)
+        {
+            services.AddControllers().AddApplicationPart(typeof(TodoController).Assembly);
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                    .SetIsOriginAllowed((host) => true)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
+            return services;
+
+        }
+
+        public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
+        {
+
+            services.AddDbContext<TodoContext>(opt =>
+            {
+                opt.UseInMemoryDatabase("Database");
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomSwagger(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Todo.Api", Version = "v1" });
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomIntegrations(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddTransient<ICustomerRepository, CustomerRepository>();
+            //services.AddTransient<ITodoItemRepository, TodoItemRepository>();
+            services.AddTransient<AuthenticateUser>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            services
+              .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+              .AddJwtBearer(options =>
+              {
+                  options.TokenValidationParameters = new TokenValidationParameters
+                  {
+                      ValidateIssuer = false,
+                      ValidateAudience = false,
+                      ValidateLifetime = true,
+                      ValidateIssuerSigningKey = true,
+                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
+                  };
+              });
+
+            return services;
+        }
+        }
 }

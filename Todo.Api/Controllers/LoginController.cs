@@ -9,7 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Todo.Api.Models;
-using Todo.Domain.Entities;
+using Todo.Domain.AggregatesModel.CustomerAggregate;
 using Todo.Domain.Services;
 
 namespace Todo.Api.Controllers
@@ -43,7 +43,7 @@ namespace Todo.Api.Controllers
         }
 
 
-        private string GenerateJSONWebToken(User userInfo)
+        private string GenerateJSONWebToken(Customer userInfo)
         {
             Console.WriteLine("--> LoginController : GenerationJSONWebToken");
 

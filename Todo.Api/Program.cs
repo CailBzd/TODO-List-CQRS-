@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
+
 namespace Todo.Domain.Api
 {
+
+
     public class Program
     {
         public static void Main(string[] args)
