@@ -1113,6 +1113,7 @@
       },
       "Todo.Domain/1.0.0": {
         "dependencies": {
+          "MediatR": "9.0.0",
           "Flunt": "1.0.4"
         },
         "runtime": {

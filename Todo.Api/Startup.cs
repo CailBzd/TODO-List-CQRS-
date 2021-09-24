@@ -8,15 +8,17 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
 using System.Text;
 using Todo.Infra.Contexts;
 using Todo.Infra.Repositories;
 using Todo.Domain.Services;
 using Todo.Domain.AggregatesModel.CustomerAggregate;
-using Todo.Domain.AggregatesModel.TodoItemAggregate;
-using Todo.Api.Controllers;
 using Todo.Api.Models;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Todo.Api.Infrastructure.AutofacModules;
+using MediatR;
+using System.Reflection;
 
 namespace Todo.Domain.Api
 {
@@ -29,13 +31,23 @@ namespace Todo.Domain.Api
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddCustomMvc();
             services.AddCustomDbContext(Configuration);
             services.AddCustomSwagger(Configuration);
             services.AddCustomIntegrations(Configuration);
-            services.AddCustomAuthentication(Configuration);           
+            services.AddCustomConfiguration(Configuration);
+            services.AddCustomAuthentication(Configuration);
+
+            //Autofac - Injection de dépendances
+            var container = new ContainerBuilder();
+            container.Populate(services);
+            container.RegisterModule(new MediatorModule());
+            container.RegisterModule(new ApplicationModule("DataSource=:memory:"));
+
+            return new AutofacServiceProvider(container.Build());
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
@@ -74,7 +86,9 @@ namespace Todo.Domain.Api
     {
         public static IServiceCollection AddCustomMvc(this IServiceCollection services)
         {
-            services.AddControllers().AddApplicationPart(typeof(TodoController).Assembly);
+
+            services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
+            services.AddControllers();//.AddApplicationPart(typeof(TodoController).Assembly);
 
             services.AddCors(options =>
             {
@@ -95,8 +109,15 @@ namespace Todo.Domain.Api
 
             services.AddDbContext<TodoContext>(opt =>
             {
-                opt.UseInMemoryDatabase("Database");
-            });
+                opt.UseInMemoryDatabase("database");
+                    //sqlServerOptionsAction: sqlOptions =>
+                    //{
+                    //    sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                    //    sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    //});
+            },
+                ServiceLifetime.Scoped  //Showing explicitly that the DbContext is shared across the HTTP request scope (graph of objects started in the HTTP request)
+            );
 
             return services;
         }
@@ -138,5 +159,12 @@ namespace Todo.Domain.Api
 
             return services;
         }
+
+        public static IServiceCollection AddCustomConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddOptions();
+
+            return services;
         }
+    }
 }

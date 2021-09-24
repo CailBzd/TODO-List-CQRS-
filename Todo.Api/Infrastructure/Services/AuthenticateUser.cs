@@ -9,16 +9,16 @@ namespace Todo.Domain.Services
 {
     public class AuthenticateUser
     {
-        private readonly ICustomerRepository _userRepository;
+        private readonly ICustomerRepository _CustomerRepository;
 
         public AuthenticateUser(ICustomerRepository userRepository)
         {
-            this._userRepository = userRepository;
+            this._CustomerRepository = userRepository;
         }
 
         public async Task<Customer> Login(string name, string pass)
         {
-            return await _userRepository.AuthenticateUserAsync(name, pass);
+            return await _CustomerRepository.AuthenticateUserAsync(name, pass);
         }
     }
 }

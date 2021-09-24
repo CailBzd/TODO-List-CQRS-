@@ -16,6 +16,8 @@ namespace Todo.Infra.EntityConfigurations
 
         public void Configure(EntityTypeBuilder<Customer> todoConfig)
         {
+            Console.WriteLine("--> CustomerEntityTypeConfig : Configure");
+
             todoConfig.ToTable("customers", TodoContext.DEFAULT_SCHEMA);
 
             todoConfig.HasKey(o => o.Id);

@@ -29,24 +29,29 @@ namespace Todo.Api.Controllers
         public async Task<IActionResult> Login(LoginViewModel login,
             [FromServices] AuthenticateUser handler)
         {
-            Console.WriteLine("--> LoginController : Login");
-
-            var auth = await handler.Login(login.Username, login.Password);
-
-            if (auth != null)
+            try
             {
-                var tokenString = GenerateJSONWebToken(auth);
-                return Ok(new { access_token = tokenString });
-            }
+                var auth = await handler.Login(login.Username, login.Password);
 
-            return BadRequest(new { message = "Auth failed" });
+                if (auth != null)
+                {
+                    var tokenString = GenerateJSONWebToken(auth);
+                    return Ok(new { access_token = tokenString });
+                }
+
+                return Unauthorized(new { message = "Auth failed" });
+            }
+            catch(Exception e)
+            {
+
+                return Unauthorized(new { message = "Auth failed" });
+            }          
+
         }
 
 
         private string GenerateJSONWebToken(Customer userInfo)
         {
-            Console.WriteLine("--> LoginController : GenerationJSONWebToken");
-
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
             var claims = new ClaimsIdentity(new[] { new Claim("id", userInfo.Id.ToString()) });

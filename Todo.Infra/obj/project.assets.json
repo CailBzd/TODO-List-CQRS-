@@ -1567,6 +1567,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
+          "MediatR": "9.0.0",
           "flunt": "1.0.4"
         },
         "compile": {

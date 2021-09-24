@@ -1,8 +1,9 @@
 using Dapper;
-using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Todo.Domain.AggregatesModel.TodoItemAggregate;
@@ -10,7 +11,7 @@ using Todo.Infra.Contexts;
 
 namespace Todo.Api.Queries
 {
-    public class TodoItemQueries : ITodoItemsQueries
+    public class TodoItemQueries : ITodoItemQueries
     {
 
         private string _connectionString = string.Empty;
@@ -21,23 +22,29 @@ namespace Todo.Api.Queries
 
         public async Task<ICollection<TodoItemSummary>> GetTodoItemsFromCustomerAsync(Guid userId)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            var connectionStringBuilder =new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            var connectionString = connectionStringBuilder.ToString();
+            var connection = new SqliteConnection(connectionString);
+
+                DbContextOptions<TodoContext> options;
+                var builder = new DbContextOptionsBuilder<TodoContext>();
+                builder.UseInMemoryDatabase("database");
+                options = builder.Options;
+
+            using (var context = new TodoContext(options))
             {
-                connection.Open();
-
-                var result = await connection.QueryAsync<dynamic>(@"Select * from Todos Where CustomerId = @userId", new { userId });
-
-                if (result.AsList().Count == 0)
-                    throw new KeyNotFoundException();
+                List<TodoItem> result = await context.Todos.Where(t => t.CustomerId == userId).ToListAsync();
 
                 return MapTodoItems(result);
             }
+
+            throw new NullReferenceException();
         }
 
         public async Task<ICollection<TodoItemSummary>> GetTodoItemsAsync()
         {
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqliteConnection(_connectionString))
             {
                 connection.Open();
 
@@ -46,19 +53,19 @@ namespace Todo.Api.Queries
                 if (result.AsList().Count == 0)
                     throw new KeyNotFoundException();
 
-                return MapTodoItems(result);
+                return null;//MapTodoItems(result);
             }
 
         }
 
-        private ICollection<TodoItemSummary> MapTodoItems(dynamic result)
+        private ICollection<TodoItemSummary> MapTodoItems(List<TodoItem> result)
         {
             List<TodoItemSummary> todos = new List<TodoItemSummary>();
-            foreach (dynamic item in result)
+            foreach (TodoItem item in result)
             {
                 var todoItem = new TodoItemSummary()
                 {
-                    title = item.t
+                    title = item.Title
                 };
 
                 todos.Add(todoItem);

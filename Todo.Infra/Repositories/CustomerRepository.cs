@@ -37,6 +37,7 @@ namespace Todo.Infra.Repositories
         //AuthUser
         public async Task<Customer> AuthenticateUserAsync(string name, string pass)
         {
+
             var user = await _context.Customers.Where(user => user.Username == name && user.Password == pass).FirstOrDefaultAsync();
             if (user == null)
             {
